@@ -10,13 +10,13 @@ import (
 
 
 // DBの初期化
-func dbInit() {
-	db := gormConnect()
+func DbInit() {
+	db := GormConnect()
 	// コネクション解放
 	defer db.Close()
 }
 
-func gormConnect() *gorm.DB {
+func GormConnect() *gorm.DB {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal(err)
