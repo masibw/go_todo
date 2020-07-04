@@ -1,0 +1,27 @@
+#3系が最新らしい 書き方が異なる
+version: "3"
+services:
+  db: #ここの名前はなんでもよさそう
+    container_name: db-container
+    build:
+      context: .
+      dockerfile: ./mysql/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./mysql/db:/docker-entrypoint-initdb.d
+    environment:
+       MYSQL_ROOT_PASSWORD: ${DBPASS}
+  app:
+    container_name: app-container
+    build:
+      context: .
+      dockerfile: ./go/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db #mysqlの方が先に起動される
+    stdin_open: true
+    tty: true # コンテナの起動永続化
+    volumes:
+      - ../cmd/go_todo:/go/src/go_todo
