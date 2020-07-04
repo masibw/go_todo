@@ -23,30 +23,6 @@ type Todo struct {
 	UpdatedAt time.Time `binding:"required" gorm:"column:updated_at" sql:"DEFAULT:current_timestamp"`
 }
 
-////DBの初期化
-//func dbInit() {
-//	db := gormConnect()
-//	// コネクション解放
-//	defer db.Close()
-//}
-//
-//func gormConnect() *gorm.DB {
-//	err := godotenv.Load()
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	DBUSER := os.Getenv("DBUSER")
-//	DBPASS := os.Getenv("DBPASS")
-//	DBHOST := os.Getenv("DBHOST")
-//	DBNAME := os.Getenv("DBNAME")
-//
-//	CONNECT := DBUSER + ":" + DBPASS + "@(" + DBHOST + ")/" + DBNAME + "?parseTime=true"
-//	db, err := gorm.Open("mysql", CONNECT)
-//	if err != nil {
-//		log.Fatal(err.Error())
-//	}
-//	return db
-//}
 
 func main() {
 	db := db.GormConnect()
