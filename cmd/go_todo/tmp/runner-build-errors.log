@@ -1,3 +1,0 @@
-go: finding module for package github.com/masibw/go_todo/internal/db
-go: downloading github.com/masibw/go_todo v0.0.0-20200704080436-2f800a152e61
-main.go:8:2: module github.com/masibw/go_todo@latest found (v0.0.0-20200704080436-2f800a152e61), but does not contain package github.com/masibw/go_todo/internal/db
