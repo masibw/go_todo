@@ -41,5 +41,21 @@ func main() {
 			"todo": todo,
 		})
 	})
+
+	r.GET("/users/:id",func(c *gin.Context){
+		id:=c.Param("id")
+		var user User
+		db.First(&user,id)
+		c.JSON(http.StatusOK,gin.H{
+			"user":user,
+		})
+	})
+	r.GET("/users",func(c *gin.Context){
+		var users []User
+		db.Find(&users)
+		c.JSON(http.StatusOK,gin.H{
+			"users":users,
+		})
+	})
 	r.Run()
 }
