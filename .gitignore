@@ -17,3 +17,4 @@
 # ignore .env file
 .env
 
+cmd/go_todo/tmp/runner-build
