@@ -25,3 +25,10 @@ services:
     tty: true # コンテナの起動永続化
     volumes:
       - ../cmd/go_todo:/go/src/go_todo
+    entrypoint:
+      - dockerize
+      - -timeout
+      - 60s
+      - -wait
+      - tcp://db-container:3306
+    command: fresh
