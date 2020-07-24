@@ -10,15 +10,15 @@ import (
 
 type User struct {
 	Id        int       `binding:"required" gorm:"AUTO_INCREMENT;PRIMARY_KEY;column:id"`
-	Email     string    `binding:"required" gorm:"unique;not null;column:email"`
-	Password  string    `binding:"required" gorm:"column:password"`
+	Email     string    `binding:"required" gorm:"unique;not null;column:email" json:email`
+	Password  string    `binding:"required" gorm:"column:password" json:password`
 	CreatedAt time.Time ` binding:"required" gorm:"column:created_at" sql:"DEFAULT:current_timestamp"`
 	LastLogin time.Time ` binding:"required" gorm:"column:last_login" sql:"DEFAULT:current_timestamp"`
 }
 type Todo struct {
 	Id        int       `binding:"required" gorm:"AUTO_INCREMENT;PRIMARY_KEY;column:id"`
-	UserId    int       `binding:"required" gorm:"PRIMARY_KEY;column:user_id"`
-	Content   string    `binding:"required" gorm:"not null;column:content"`
+	UserId    int       `binding:"required" gorm:"PRIMARY_KEY;column:user_id" json:user_id`
+	Content   string    `binding:"required" gorm:"not null;column:content" json:content`
 	CreatedAt time.Time `binding:"required" gorm:"column:created_at" sql:"DEFAULT:current_timestamp"`
 	UpdatedAt time.Time `binding:"required" gorm:"column:updated_at" sql:"DEFAULT:current_timestamp"`
 }
@@ -55,6 +55,18 @@ func main() {
 		db.Find(&users)
 		c.JSON(http.StatusOK,gin.H{
 			"users":users,
+		})
+	})
+
+	r.POST("/users",func(c *gin.Context){
+		var user User
+		if err:=c.ShouldBindJSON(&user); err!=nil{
+			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
+			return
+		}
+		db.Create(user)
+		c.JSON(http.StatusOK,gin.H{
+			"response":"Successfully created user",
 		})
 	})
 	r.Run()
