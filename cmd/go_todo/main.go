@@ -5,6 +5,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/masibw/go_todo/pkg/db"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -17,7 +18,7 @@ type User struct {
 }
 type Todo struct {
 	Id        int       ` gorm:"AUTO_INCREMENT;PRIMARY_KEY;column:id"`
-	UserId    int       `binding:"required" gorm:"not null;column:user_id" json:"user_id"`
+	UserId    int       `gorm:"not null;column:user_id"`
 	Content   string    `binding:"required" gorm:"not null;column:content" json:"content"`
 	CreatedAt time.Time ` gorm:"column:created_at" sql:"DEFAULT:current_timestamp"`
 	UpdatedAt time.Time ` gorm:"column:updated_at" sql:"DEFAULT:current_timestamp"`
@@ -42,10 +43,10 @@ func main() {
 	})
 
 	//特定のuserを返す
-	r.GET("/api/1.0/users/:id",func(c *gin.Context){
-		id:=c.Param("id")
+	r.GET("/api/1.0/users/:user_id",func(c *gin.Context){
+		userId:=c.Param("user_id")
 		var user User
-		if err := db.First(&user,id).Error; err != nil{
+		if err := db.First(&user,userId).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
@@ -72,9 +73,9 @@ func main() {
 
 
 	//特定のuserを削除
-	r.DELETE("/api/1.0/users/:id",func(c *gin.Context){
-		id:=c.Param("id")
-		if err := db.Where("id = ?",id).Delete(User{}).Error; err != nil{
+	r.DELETE("/api/1.0/users/:user_id",func(c *gin.Context){
+		userId:=c.Param("user_id")
+		if err := db.Where("id = ?",userId).Delete(User{}).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
@@ -85,10 +86,11 @@ func main() {
 	})
 
 
-	//全てのtodoを返す
-	r.GET("/api/1.0/todos",func(c *gin.Context){
+	//特定のuserの全てのtodoを返す
+	r.GET("/api/1.0/users/:user_id/todos",func(c *gin.Context){
 		var todos []Todo
-		if err := db.Find(&todos).Error; err != nil{
+		userId:=c.Param("user_id")
+		if err := db.Where("user_id = ?",userId).Find(&todos).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
@@ -98,10 +100,10 @@ func main() {
 	})
 
 	//特定のtodoを返す
-	r.GET("/api/1.0/todos/:id",func(c *gin.Context){
-		id:=c.Param("id")
+	r.GET("/api/1.0/users/:user_id/todos/:todo_id",func(c *gin.Context){
+		todoId:=c.Param("todo_id")
 		var todo Todo
-		if err := db.First(&todo,id).Error; err != nil{
+		if err := db.First(&todo,todoId).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
@@ -111,12 +113,14 @@ func main() {
 	})
 
 	//todoの新規作成
-	r.POST("/api/1.0/todos",func(c *gin.Context){
+	r.POST("/api/1.0/users/:user_id/todos",func(c *gin.Context){
 		var todo Todo
+		userId:=c.Param("user_id")
 		if err:=c.ShouldBindJSON(&todo); err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
+		todo.UserId,_=strconv.Atoi(userId)
 		if err := db.Create(&todo).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
@@ -127,8 +131,8 @@ func main() {
 	})
 
 	//todoのcontentを更新
-	r.PUT("/api/1.0/todos/:id",func(c *gin.Context){
-		id:=c.Param("id")
+	r.PUT("/api/1.0/users/:user_id/todos/:todo_id",func(c *gin.Context){
+		todoId:=c.Param("todo_id")
 		var content map[string]string
 		var todo Todo
 		if err:=c.ShouldBindJSON(&content); err != nil{
@@ -136,7 +140,7 @@ func main() {
 			return
 		}
 
-		if err := db.First(&todo,id).Error; err != nil{
+		if err := db.First(&todo,todoId).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
@@ -151,13 +155,12 @@ func main() {
 	})
 
 	//特定のtodoの削除
-	r.DELETE("/api/1.0/todos/:id",func(c *gin.Context){
-		id:=c.Param("id")
-		if err := db.Where("id = ?",id).Delete(Todo{}).Error; err != nil{
+	r.DELETE("/api/1.0/users/:user_id/todos/:todo_id",func(c *gin.Context){
+		todoId:=c.Param("todo_id")
+		if err := db.Where("id = ?",todoId).Delete(Todo{}).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
-
 		c.JSON(http.StatusOK,gin.H{
 			"response":"Successfully deleted todo",
 		})
