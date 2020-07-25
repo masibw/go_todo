@@ -35,7 +35,7 @@ func main() {
 
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"http://localhost:8081"}
-	//r.Use(cors.New(config))
+	r.Use(cors.New(config))
 
 	//全てのuserを返す
 	r.GET("/api/1.0/users",func(c *gin.Context){
