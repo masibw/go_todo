@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/gin-contrib/cors"
 	"github.com/masibw/go_todo/pkg/db"
 	"net/http"
 	"strconv"
@@ -20,6 +22,7 @@ type Todo struct {
 	Id        int       ` gorm:"AUTO_INCREMENT;PRIMARY_KEY;column:id"`
 	UserId    int       `gorm:"not null;column:user_id"`
 	Content   string    `binding:"required" gorm:"not null;column:content" json:"content"`
+	IsDone bool `gorm:"not null; column:is_done" json:"is_done"`
 	CreatedAt time.Time ` gorm:"column:created_at" sql:"DEFAULT:current_timestamp"`
 	UpdatedAt time.Time ` gorm:"column:updated_at" sql:"DEFAULT:current_timestamp"`
 }
@@ -29,6 +32,10 @@ func main() {
 	db := db.GormConnect()
 	defer db.Close()
 	r := gin.Default()
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:8081"}
+	//r.Use(cors.New(config))
 
 	//全てのuserを返す
 	r.GET("/api/1.0/users",func(c *gin.Context){
@@ -107,6 +114,7 @@ func main() {
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
+
 		c.JSON(http.StatusOK,gin.H{
 			"todo":todo,
 		})
