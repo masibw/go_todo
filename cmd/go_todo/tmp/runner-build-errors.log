@@ -1,2 +1,0 @@
-# github.com/masibw/go_todo/cmd/go_todo
-./main.go:4:2: imported and not used: "fmt"
