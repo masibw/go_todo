@@ -7,15 +7,7 @@ import (
 	"log"
 	"os"
 )
-
-
-// DBの初期化
-func DbInit() {
-	db := GormConnect()
-	// コネクション解放
-	defer db.Close()
-}
-
+//DB接続
 func GormConnect() *gorm.DB {
 	err := godotenv.Load()
 	if err != nil {

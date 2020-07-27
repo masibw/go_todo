@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/masibw/go_todo/pkg/db"
+	//"github.com/masibw/go_todo/pkg/utility"
+	"local.packages/utility"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"strconv"
@@ -40,9 +42,6 @@ func main() {
 
 	db.Create(&User{Email:"example.com",Password:"password"})
 
-
-
-
 	//全てのuserを返す
 	r.GET("/api/1.0/users",func(c *gin.Context){
 		var users []User
@@ -71,16 +70,16 @@ func main() {
 	//userの新規作成
 	r.POST("/api/1.0/users",func(c *gin.Context){
 		var user User
-		if err:=c.ShouldBindJSON(&user); err!=nil{
-			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
+		var err error
+		if err:=c.ShouldBindJSON(&user); err!=nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		hashedPassword,err := bcrypt.GenerateFromPassword([]byte(user.Password),10)
+		user.Password,err = utility.Encode(user.Password,10)
 		if err != nil {
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return
 		}
-		user.Password = string(hashedPassword)
 		if err := db.Create(&user).Error; err != nil{
 			c.JSON(http.StatusBadRequest,gin.H{"error":err.Error()})
 			return

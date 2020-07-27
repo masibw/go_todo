@@ -18,6 +18,6 @@ RUN mkdir /go/src/go_todo \
 
 
 # コンテナログイン時のディレクトリ指定
-WORKDIR /go/src/go_todo
+WORKDIR /go/src/go_todo/cmd/go_todo
 
 
