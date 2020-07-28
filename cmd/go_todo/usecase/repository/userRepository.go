@@ -1,8 +1,8 @@
 package repository
 
 import (
-	//"github.com/masibw/go_todo/cmd/go_todo/model"
-	"local.packages/model"
+	"github.com/masibw/go_todo/cmd/go_todo/model"
+	//"local.packages/model"
 )
 
 type UserRepository interface{

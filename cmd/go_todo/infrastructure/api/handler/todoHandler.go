@@ -2,12 +2,14 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	//"github.com/masibw/go_todo/cmd/go_todo/model"
-	"strconv"
-	"local.packages/model"
-	//"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
+	"github.com/masibw/go_todo/cmd/go_todo/model"
+	"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
 	"net/http"
-	"local.packages/repository"
+	"strconv"
+	//"local.packages/model"
+	//"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
+
+	//"local.packages/repository"
 )
 
 type todoHandler struct{
