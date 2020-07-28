@@ -10,5 +10,5 @@ type TodoRepository interface {
 	FindAll(userId string) ([]*model.Todo, error)
 	Find(todoId string) (*model.Todo, error)
 	Delete(todoId string) error
-	Update(todoId ,content string)error
+	Update(todoId, content string) error
 }

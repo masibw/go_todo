@@ -5,9 +5,9 @@ import (
 	//"local.packages/model"
 )
 
-type UserRepository interface{
-	Create(user *model.User)error
- 	FindAll()([]*model.User, error)
- 	Find(userId string)(*model.User, error)
-	Delete(userId string)error
+type UserRepository interface {
+	Create(user *model.User) error
+	FindAll() ([]*model.User, error)
+	Find(userId string) (*model.User, error)
+	Delete(userId string) error
 }
