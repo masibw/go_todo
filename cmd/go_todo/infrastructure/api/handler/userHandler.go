@@ -7,8 +7,11 @@ import (
 	//"github.com/masibw/go_todo/cmd/go_todo/model"
 	//"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
 	"github.com/masibw/go_todo/pkg/utility"
-	"local.packages/model"
-	"local.packages/repository"
+	"github.com/masibw/go_todo/cmd/go_todo/model"
+	"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
+
+	//"local.packages/model"
+	//"local.packages/repository"
 	"net/http"
 )
 

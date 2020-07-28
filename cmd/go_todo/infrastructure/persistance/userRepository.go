@@ -3,12 +3,14 @@ package persistance
 
 import(
 	"fmt"
+	"github.com/masibw/go_todo/cmd/go_todo/model"
+
 	//"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
 	//"github.com/masibw/go_todo/cmd/go_todo/model"
-	"local.packages/model"
-	"local.packages/repository"
+	//"local.packages/model"
+	//"local.packages/repository"
 	"github.com/jinzhu/gorm"
-	//"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
+	"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
 )
 
 type userRepository struct{

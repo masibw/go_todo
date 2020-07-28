@@ -6,12 +6,12 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/masibw/go_todo/pkg/db"
 	"golang.org/x/crypto/bcrypt"
-	"local.packages/handler"
-	//"github.com/masibw/go_todo/cmd/go_todo/infrastructure/api/handler"
-	//"github.com/masibw/go_todo/cmd/go_todo/infrastructure/persistance"
-	//."github.com/masibw/go_todo/cmd/go_todo/model"
-	. "local.packages/model"
-	"local.packages/persistance"
+	//"local.packages/handler"
+	"github.com/masibw/go_todo/cmd/go_todo/infrastructure/api/handler"
+	"github.com/masibw/go_todo/cmd/go_todo/infrastructure/persistance"
+	."github.com/masibw/go_todo/cmd/go_todo/model"
+	//. "local.packages/model"
+	//"local.packages/persistance"
 	"net/http"
 )
 
