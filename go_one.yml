@@ -1,0 +1,4 @@
+package:
+  - pkgName: 'github.com/masibw/go_todo/cmd/go_todo/infrastructure/api/handler'
+    typeNames:
+      - typeName: '*todoHandler'
