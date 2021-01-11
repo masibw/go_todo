@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/masibw/go_todo/cmd/go_todo/model"
 	"github.com/masibw/go_todo/cmd/go_todo/usecase/repository"
@@ -52,6 +53,11 @@ func(tH *todoHandler)FindTodos(c *gin.Context){
 	if err != nil{
 		c.JSON(http.StatusBadRequest,gin.H{"error":err})
 		return
+	}
+
+	for _, todo := range todos{
+		todo2,_ := tH.todoRepository.Find(string(todo.Id))
+		fmt.Println(todo2)
 	}
 	c.JSON(http.StatusOK,gin.H{
 		"todos":todos,
